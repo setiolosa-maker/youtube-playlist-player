@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pemutar Playlist YouTube Otomatis</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background-color: #f9f9f9; padding: 20px; }
+    input, button { padding: 10px; font-size: 16px; width: 60%; margin: 10px 0; }
+    iframe { width: 90%; height: 500px; border: none; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Pemutar Playlist YouTube Otomatis</h1>
+  <p>Masukkan link playlist YouTube kamu:</p>
+  <input type="text" id="playlistLink" placeholder="https://www.youtube.com/playlist?list=...">
+  <br>
+  <button onclick="loadPlaylist()">Putar Playlist</button>
+
+  <div id="playerContainer" style="display: none;">
+    <iframe id="youtubePlayer" allow="autoplay" allowfullscreen></iframe>
+  </div>
+
+  <script>
+    function extractPlaylistId(url) {
+      const match = url.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+      return match ? match[1] : null;
+    }
+
+    function loadPlaylist() {
+      const input = document.getElementById("playlistLink").value;
+      const playlistId = extractPlaylistId(input);
+      if (!playlistId) {
+        alert("Link playlist tidak valid. Harus mengandung 'list=...'");
+        return;
+      }
+
+      const player = document.getElementById("youtubePlayer");
+      const embedUrl = `https://www.youtube.com/embed/videoseries?list=${playlistId}&autoplay=1&rel=0&modestbranding=1&loop=0`;
+
+      player.src = embedUrl;
+      document.getElementById("playerContainer").style.display = "block";
+    }
+  </script>
+</body>
+</html>
